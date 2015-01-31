@@ -1,7 +1,11 @@
 package Portal.Server;
 
 import Portal.Server.PortalAuthServer;
-
+/**
+ * 压力测试入口
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class StartServer {
 
 	public static void main(String[] args) {

@@ -8,7 +8,11 @@ import java.net.InetAddress;
 import Portal.Utils.Make_Authenticator;
 import Portal.Utils.WR;
 import Portal.Utils.Write2Log;
-
+/**
+ * Quit_V2包
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Quit_V2 {
 
 	// 创建ErrorInfo包

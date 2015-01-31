@@ -1,5 +1,8 @@
 package Portal.Utils;
-
+/**
+ * 打印包内容
+ * @author LeeSon  QQ:25901875
+ */
 public class WR {
 
 	public static String Getbyte2HexString(byte[] b) {

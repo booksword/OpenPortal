@@ -1,7 +1,10 @@
 package Portal.Utils;
 
 import java.security.MessageDigest;
-
+/**
+ * MD5算法
+ * @author LeeSon  QQ:25901875
+ */
 public class MD5 {
 
 	private static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8',

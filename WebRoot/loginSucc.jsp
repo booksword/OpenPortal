@@ -17,8 +17,8 @@ String radiusPath = request.getScheme()+"://"+request.getServerName()+":"+1817+"
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <meta http-equiv="keywords" content="ossh portal">
-    <meta http-equiv="description" content="ossh portal login">
+    <meta http-equiv="keywords" content="Open Portal">
+    <meta http-equiv="description" content="Open Portal info">
     <link type="text/css" href="css/index.css" rel="stylesheet" />
 </head>
  <%
@@ -50,7 +50,7 @@ String radiusPath = request.getScheme()+"://"+request.getServerName()+":"+1817+"
                         <label style="text-align: center ;"><font color="red"><b><%=message%></b></font></label> <br/>
                     </p>
 			        <p>
-			          <label for=success-user>您已登录成功，可以连接办公网，请不要关闭该窗口！！欢迎您：</LABEL><span id="success-user" class="id-note"><font color="red"><b><%=username%></b></font></span>
+			          <label for=success-user>您已登录成功，可以连接网络，请不要关闭该窗口！！欢迎您：</LABEL><span id="success-user" class="id-note"><font color="red"><b><%=username%></b></font></span>
 			          <br/>
 			           <label for=success-user>IP地址：</LABEL><span id="success-user" class="id-note"><font color="red"><b><%=ip%></b></font></span>
 			           <br/>
@@ -70,7 +70,7 @@ String radiusPath = request.getScheme()+"://"+request.getServerName()+":"+1817+"
 			      </div>
               </form>
                 <p id="signup">
-                   Copyright &copy; 2014 - 2015 <a href="<%=basePath%>">PortalServer服务-李硕</a>.  All Rights Reserved.
+                   Copyright &copy; 2014 - 2015 <a href="<%=basePath%>">OpenPortal Server-李硕</a>.  All Rights Reserved.
                </p>
         </div>
     </div>

@@ -3,7 +3,10 @@ package Portal.Utils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * 日志输出
+ * @author LeeSon  QQ:25901875
+ */
 public class Write2Log {
 	public static void Wr2Log(String aaa) {
 		String path = System.getProperty("user.dir");

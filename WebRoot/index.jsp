@@ -17,8 +17,8 @@ String portalPath = request.getScheme()+"://"+request.getServerName()+":"+reques
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <meta http-equiv="keywords" content="ossh portal">
-    <meta http-equiv="description" content="ossh portal login">
+    <meta http-equiv="keywords" content="Open Portal">
+    <meta http-equiv="description" content="Open Portal login">
     <link type="text/css" href="css/index.css" rel="stylesheet" />
 	<script type="text/javascript">
 function _change() {
@@ -93,7 +93,7 @@ function _change() {
                 </div>
                </form>
                 <p id="signup">
-                   Copyright &copy; 2014 - 2015 <a href="<%=basePath%>">PortalServer服务-李硕</a>.  All Rights Reserved.
+                   Copyright &copy; 2014 - 2015 <a href="<%=basePath%>">OpenPortal Server-李硕</a>.  All Rights Reserved.
                </p>
         </div>
     </div>

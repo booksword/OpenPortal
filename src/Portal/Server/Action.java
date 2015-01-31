@@ -8,7 +8,11 @@ import Portal.Action.Quit_V1;
 import Portal.Action.Quit_V2;
 import Portal.Utils.WR;
 import Portal.Utils.Write2Log;
-
+/**
+ * 调用接口
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Action {
 	// 构建portal协议中的字段包
 	byte[] Ver = new byte[1];

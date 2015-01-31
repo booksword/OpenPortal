@@ -10,7 +10,10 @@ import java.io.OutputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-
+/**
+ * 验证码图片生成
+ * @author LeeSon  QQ:25901875
+ */
 public class VerifyCode {
 	private int w = 70;
 	private int h = 35;

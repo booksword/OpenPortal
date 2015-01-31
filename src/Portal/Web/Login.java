@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import Portal.Server.Action;
-
+/**
+ * 登录判断
+ * @author LeeSon  QQ:25901875
+ */
 public class Login extends HttpServlet {
 
 	@Override

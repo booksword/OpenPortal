@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import Portal.Server.Action;
-
+/**
+ * 退出
+ * @author LeeSon  QQ:25901875
+ */
 public class LoginOut extends HttpServlet {
 
 	/**

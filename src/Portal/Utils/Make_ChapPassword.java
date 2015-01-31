@@ -3,7 +3,11 @@ package Portal.Utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+/**
+ * 生成ChapPassword
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Make_ChapPassword {
 	public static byte[] MK_ChapPwd(byte[] ReqID,byte[] Challenge,byte[] usp) throws UnsupportedEncodingException{
 		

@@ -8,7 +8,11 @@ import java.net.InetAddress;
 
 import Portal.Utils.Make_ChapPassword;
 import Portal.Utils.WR;
-
+/**
+ * Auth_V1包
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Auth_V1 {
 
 	// 创建ErrorInfo包

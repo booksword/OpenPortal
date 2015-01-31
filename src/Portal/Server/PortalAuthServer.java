@@ -1,5 +1,9 @@
 package Portal.Server;
-
+/**
+ * 压力测试调用
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class PortalAuthServer extends Thread{
 
 	public PortalAuthServer() {

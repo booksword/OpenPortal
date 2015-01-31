@@ -2,7 +2,11 @@ package Portal.Utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+/**
+ * 生成V2协议中Authenticator字段
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Make_Authenticator {
 	/**
 	 * 生成Request Authenticator结果

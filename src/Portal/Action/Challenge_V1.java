@@ -5,7 +5,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import Portal.Utils.WR;
-
+/**
+ * Challenge_V1包
+ * @author LeeSon  QQ:25901875
+ *
+ */
 public class Challenge_V1 {
 
 	
