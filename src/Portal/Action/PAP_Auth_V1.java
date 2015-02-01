@@ -6,32 +6,27 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import Portal.Utils.WR;
-import Portal.Utils.Write2Log;
+
 /**
  * Auth_V1包
- * @author LeeSon  QQ:25901875
- *
+ * 
+ * @author LeeSon QQ:25901875
+ * 
  */
 public class PAP_Auth_V1 {
-
 
 	// 创建连接
 	DatagramSocket dataSocket;
 
-	public int Action(String Bas_IP, int bas_PORT, int timeout_Sec, String in_username, String in_password, byte[] SerialNo, String ip) {
+	public int Action(String Bas_IP, int bas_PORT, int timeout_Sec,
+			String in_username, String in_password, byte[] SerialNo,
+			byte[] UserIP) {
 
 		byte[] Username = in_username.getBytes();
 		byte[] password = in_password.getBytes();
-		byte[] UserIP=new byte[4];
-		String[] ips = ip.split("[.]");
-		// 将ip地址加入字段UserIP
-		for (int i = 0; i < 4; i++) {
-			int m = Integer.parseInt(ips[i]);
-			byte b = (byte) m;
-			UserIP[i] = b;
-		}
+
 		// 创建Req_Auth包
-		byte[] Req_Auth = new byte[16 + 4 + Username.length + password.length];
+		byte[] Req_Auth = new byte[20 + Username.length + password.length];
 
 		Req_Auth[0] = (byte) 1;
 		Req_Auth[1] = (byte) 3;
@@ -49,7 +44,7 @@ public class PAP_Auth_V1 {
 		Req_Auth[13] = (byte) 0;
 		Req_Auth[14] = (byte) 0;
 		Req_Auth[15] = (byte) 2;
-		
+
 		Req_Auth[16] = (byte) 1;
 		Req_Auth[17] = (byte) (Username.length + 2);
 		for (int i = 0; i < Username.length; i++) {
@@ -62,7 +57,6 @@ public class PAP_Auth_V1 {
 		}
 
 		System.out.println("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
-		Write2Log.Wr2Log("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
 
 		try {
 
@@ -72,7 +66,7 @@ public class PAP_Auth_V1 {
 			DatagramPacket requestPacket = new DatagramPacket(Req_Auth,
 					Req_Auth.length, InetAddress.getByName(Bas_IP), bas_PORT);
 			dataSocket.send(requestPacket);
-		
+
 			// 接收服务器的数据包
 			byte[] ACK_Data = new byte[16];
 			DatagramPacket receivePacket = new DatagramPacket(ACK_Data,
@@ -81,10 +75,7 @@ public class PAP_Auth_V1 {
 			dataSocket.setSoTimeout(timeout_Sec * 1000);
 			dataSocket.receive(receivePacket);
 
-			
-			System.out
-					.println("ACK Auth" + WR.Getbyte2HexString(ACK_Data));
-			Write2Log.Wr2Log("ACK Auth" + WR.Getbyte2HexString(ACK_Data));
+			System.out.println("ACK Auth" + WR.Getbyte2HexString(ACK_Data));
 
 			if ((int) (ACK_Data[14] & 0xFF) == 0) {
 				System.out.println("认证成功！！");
@@ -105,8 +96,8 @@ public class PAP_Auth_V1 {
 
 		} catch (IOException e) {
 			System.out.println("用户认证服务器无响应！！！");
-			Write2Log.Wr2Log("用户认证服务器无响应！！！");
-			new PAP_Quit_V1().Action(2, Bas_IP, bas_PORT, timeout_Sec, SerialNo, ip);
+			new PAP_Quit_V1().Action(2, Bas_IP, bas_PORT, timeout_Sec,
+					SerialNo, UserIP);
 			return 02;
 		} finally {
 			dataSocket.close();
@@ -114,7 +105,7 @@ public class PAP_Auth_V1 {
 
 		// 创建AFF_Ack_Auth包
 		byte[] AFF_Ack_Auth_Data = new byte[16];
-		
+
 		AFF_Ack_Auth_Data[0] = (byte) 1;
 		AFF_Ack_Auth_Data[1] = (byte) 7;
 		AFF_Ack_Auth_Data[2] = (byte) 1;
@@ -134,8 +125,6 @@ public class PAP_Auth_V1 {
 
 		System.out.println("AFF_Ack_Auth"
 				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
-		Write2Log.Wr2Log("AFF_Ack_Auth"
-				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
 
 		try {
 
@@ -154,7 +143,6 @@ public class PAP_Auth_V1 {
 		} finally {
 			dataSocket.close();
 		}
-		
 
 	}
 

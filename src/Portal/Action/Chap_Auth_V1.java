@@ -8,11 +8,12 @@ import java.net.InetAddress;
 
 import Portal.Utils.Make_ChapPassword;
 import Portal.Utils.WR;
-import Portal.Utils.Write2Log;
+
 /**
  * Auth_V1包
- * @author LeeSon  QQ:25901875
- *
+ * 
+ * @author LeeSon QQ:25901875
+ * 
  */
 public class Chap_Auth_V1 {
 
@@ -24,8 +25,8 @@ public class Chap_Auth_V1 {
 	DatagramSocket dataSocket;
 
 	public byte[] Action(String Bas_IP, int bas_PORT, int timeout_Sec,
-			byte[] buff, String in_username, String in_password, byte[] ReqID,
-			byte[] Challenge) {
+			String in_username, String in_password, byte[] SerialNo,
+			byte[] UserIP, byte[] ReqID, byte[] Challenge) {
 
 		byte[] Username = in_username.getBytes();
 		byte[] password = in_password.getBytes();
@@ -37,35 +38,38 @@ public class Chap_Auth_V1 {
 			e.printStackTrace();
 		}
 
-		byte[] authbuff = new byte[4 + Username.length + ChapPassword.length];
-		authbuff[0] = (byte) 1;
-		authbuff[1] = (byte) (Username.length + 2);
-		for (int i = 0; i < Username.length; i++) {
-			authbuff[2 + i] = Username[i];
-		}
-		authbuff[2 + Username.length] = (byte) 4;
-		authbuff[3 + Username.length] = (byte) (ChapPassword.length + 2);
-		for (int i = 0; i < ChapPassword.length; i++) {
-			authbuff[4 + Username.length + i] = ChapPassword[i];
-		}
-
 		// 创建Req_Auth包
-		byte[] Req_Auth = new byte[16 + authbuff.length];
+		byte[] Req_Auth = new byte[20 + Username.length + ChapPassword.length];
 
-		// 给Req_Auth包赋值
-		for (int i = 0; i < Req_Auth.length; i++) {
-			Req_Auth[i] = buff[i];
-		}
+		Req_Auth[0] = (byte) 1;
 		Req_Auth[1] = (byte) 3;
+		Req_Auth[2] = (byte) 0;
+		Req_Auth[3] = (byte) 0;
+		Req_Auth[4] = SerialNo[0];
+		Req_Auth[5] = SerialNo[1];
+		Req_Auth[6] = ReqID[0];
+		Req_Auth[7] = ReqID[1];
+		Req_Auth[8] = UserIP[0];
+		Req_Auth[9] = UserIP[1];
+		Req_Auth[10] = UserIP[2];
+		Req_Auth[11] = UserIP[3];
+		Req_Auth[12] = (byte) 0;
+		Req_Auth[13] = (byte) 0;
 		Req_Auth[14] = (byte) 0;
-		short atrAttrNum = 2;
-		Req_Auth[15] = (byte) atrAttrNum;
-		for (int i = 0; i < authbuff.length; i++) {
-			Req_Auth[16 + i] = authbuff[i];
+		Req_Auth[15] = (byte) 2;
+
+		Req_Auth[16] = (byte) 1;
+		Req_Auth[17] = (byte) (Username.length + 2);
+		for (int i = 0; i < Username.length; i++) {
+			Req_Auth[18 + i] = Username[i];
+		}
+		Req_Auth[18 + Username.length] = (byte) 4;
+		Req_Auth[19 + Username.length] = (byte) (ChapPassword.length + 2);
+		for (int i = 0; i < ChapPassword.length; i++) {
+			Req_Auth[20 + Username.length + i] = ChapPassword[i];
 		}
 
 		System.out.println("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
-		Write2Log.Wr2Log("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
 
 		try {
 
@@ -75,23 +79,17 @@ public class Chap_Auth_V1 {
 			DatagramPacket requestPacket = new DatagramPacket(Req_Auth,
 					Req_Auth.length, InetAddress.getByName(Bas_IP), bas_PORT);
 			dataSocket.send(requestPacket);
-		
+
 			// 接收服务器的数据包
-			byte[] ACK_Data = new byte[16];
-			DatagramPacket receivePacket = new DatagramPacket(ACK_Data,
-					ACK_Data.length);
+			byte[] ACK_Auth_Data = new byte[16];
+			DatagramPacket receivePacket = new DatagramPacket(ACK_Auth_Data,
+					ACK_Auth_Data.length);
 			// 设置请求超时3秒
 			dataSocket.setSoTimeout(timeout_Sec * 1000);
 			dataSocket.receive(receivePacket);
 
-			byte[] ACK_Auth_Data = new byte[receivePacket.getLength()];
-			for (int i = 0; i < receivePacket.getLength(); i++) {
-				ACK_Auth_Data[i] = ACK_Data[i];
-
-			}
 			System.out
 					.println("ACK Auth" + WR.Getbyte2HexString(ACK_Auth_Data));
-			Write2Log.Wr2Log("ACK Auth" + WR.Getbyte2HexString(ACK_Auth_Data));
 
 			if ((int) (ACK_Auth_Data[14] & 0xFF) == 0) {
 				System.out.println("认证成功！！");
@@ -125,16 +123,24 @@ public class Chap_Auth_V1 {
 		// 创建AFF_Ack_Auth包
 		byte[] AFF_Ack_Auth_Data = new byte[16];
 		// 给AFF_ACK_AUTH包赋值
-		for (int i = 0; i < AFF_Ack_Auth_Data.length; i++) {
-			AFF_Ack_Auth_Data[i] = buff[i];
-		}
+		AFF_Ack_Auth_Data[0] = (byte) 1;
 		AFF_Ack_Auth_Data[1] = (byte) 7;
+		AFF_Ack_Auth_Data[2] = (byte) 0;
+		AFF_Ack_Auth_Data[3] = (byte) 0;
+		AFF_Ack_Auth_Data[4] = SerialNo[0];
+		AFF_Ack_Auth_Data[5] = SerialNo[1];
+		AFF_Ack_Auth_Data[6] = ReqID[0];
+		AFF_Ack_Auth_Data[7] = ReqID[1];
+		AFF_Ack_Auth_Data[8] = UserIP[0];
+		AFF_Ack_Auth_Data[9] = UserIP[1];
+		AFF_Ack_Auth_Data[10] = UserIP[2];
+		AFF_Ack_Auth_Data[11] = UserIP[3];
+		AFF_Ack_Auth_Data[12] = (byte) 0;
+		AFF_Ack_Auth_Data[13] = (byte) 0;
 		AFF_Ack_Auth_Data[14] = (byte) 0;
 		AFF_Ack_Auth_Data[15] = (byte) 0;
 
 		System.out.println("AFF_Ack_Auth"
-				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
-		Write2Log.Wr2Log("AFF_Ack_Auth"
 				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
 
 		try {
@@ -143,8 +149,8 @@ public class Chap_Auth_V1 {
 			// 创建发送数据包并发送给服务器
 
 			DatagramPacket requestPacket = new DatagramPacket(
-					AFF_Ack_Auth_Data, AFF_Ack_Auth_Data.length,
-					InetAddress.getByName(Bas_IP), bas_PORT);
+					AFF_Ack_Auth_Data, 16, InetAddress.getByName(Bas_IP),
+					bas_PORT);
 			dataSocket.send(requestPacket);
 			System.out.println("发送AFF_Ack_Auth成功！！");
 

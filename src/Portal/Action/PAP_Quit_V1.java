@@ -6,10 +6,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import Portal.Utils.WR;
+
 /**
  * Quit_V1包
- * @author LeeSon  QQ:25901875
- *
+ * 
+ * @author LeeSon QQ:25901875
+ * 
  */
 public class PAP_Quit_V1 {
 	// 创建Req_Quit包
@@ -19,16 +21,9 @@ public class PAP_Quit_V1 {
 	// 创建连接
 	DatagramSocket dataSocket;
 
-	public int Action(int type, String Bas_IP, int bas_PORT, int timeout_Sec, byte[] SerialNo, String ip) {
-		byte[] UserIP=new byte[4];
-		String[] ips = ip.split("[.]");
-		// 将ip地址加入字段UserIP
-		for (int i = 0; i < 4; i++) {
-			int m = Integer.parseInt(ips[i]);
-			byte b = (byte) m;
-			UserIP[i] = b;
-		}
-		
+	public int Action(int type, String Bas_IP, int bas_PORT, int timeout_Sec,
+			byte[] SerialNo, byte[] UserIP) {
+
 		Req_Quit[0] = (byte) 1;
 		Req_Quit[1] = (byte) 5;
 		Req_Quit[2] = (byte) 1;
@@ -45,10 +40,8 @@ public class PAP_Quit_V1 {
 		Req_Quit[13] = (byte) 0;
 		Req_Quit[14] = (byte) 0;
 		Req_Quit[15] = (byte) 0;
-		
+
 		if (type == 0) {
-			
-			
 
 			System.out.println("REQ Quit" + WR.Getbyte2HexString(Req_Quit));
 
@@ -57,15 +50,13 @@ public class PAP_Quit_V1 {
 				dataSocket = new DatagramSocket();
 				// 创建发送数据包并发送给服务器
 
-				DatagramPacket requestPacket = new DatagramPacket(Req_Quit,
-						Req_Quit.length, InetAddress.getByName(Bas_IP),
-						bas_PORT);
+				DatagramPacket requestPacket = new DatagramPacket(Req_Quit, 16,
+						InetAddress.getByName(Bas_IP), bas_PORT);
 				dataSocket.send(requestPacket);
 
 				// 接收服务器的数据包
 
-				DatagramPacket receivePacket = new DatagramPacket(ACK_Data,
-						ACK_Data.length);
+				DatagramPacket receivePacket = new DatagramPacket(ACK_Data, 16);
 				// 设置请求超时3秒
 				dataSocket.setSoTimeout(timeout_Sec * 100);
 				dataSocket.receive(receivePacket);
@@ -94,14 +85,15 @@ public class PAP_Quit_V1 {
 			}
 			return 0;
 
-		}else{
-			
-			
+		} else {
+
 			Req_Quit[14] = (byte) 1;
-			if(type == 2){
-				System.out.println("发送Auth超时回复报文： " + WR.Getbyte2HexString(Req_Quit));
-			}else{
-				System.out.println("发送未知超时回复报文： " + WR.Getbyte2HexString(Req_Quit));
+			if (type == 2) {
+				System.out.println("发送Auth超时回复报文： "
+						+ WR.Getbyte2HexString(Req_Quit));
+			} else {
+				System.out.println("发送未知超时回复报文： "
+						+ WR.Getbyte2HexString(Req_Quit));
 			}
 
 			try {
@@ -109,23 +101,21 @@ public class PAP_Quit_V1 {
 				dataSocket = new DatagramSocket();
 				// 创建发送数据包并发送给服务器
 
-				DatagramPacket requestPacket = new DatagramPacket(Req_Quit,
-						Req_Quit.length, InetAddress.getByName(Bas_IP),
-						bas_PORT);
+				DatagramPacket requestPacket = new DatagramPacket(Req_Quit, 16,
+						InetAddress.getByName(Bas_IP), bas_PORT);
 				dataSocket.send(requestPacket);
-				if(type == 1){
+				if (type == 1) {
 					System.out.println("发送Challenge超时回复报文成功！！！！");
-				}else if(type == 2){
+				} else if (type == 2) {
 					System.out.println("发送Auth超时回复报文成功！！！！");
-				}else{
+				} else {
 					System.out.println("发送未知超时回复报文成功！！！！");
 				}
-				
 
 			} catch (IOException e) {
-				if(type == 2){
+				if (type == 2) {
 					System.out.println("发送Auth超时回复报文失败！！！！");
-				}else{
+				} else {
 					System.out.println("发送未知超时回复报文失败！！！！");
 				}
 				return 0;
@@ -137,9 +127,8 @@ public class PAP_Quit_V1 {
 
 	}
 
-	private static void Ack_Quit_Error(byte[] Req_Quit, String Bas_IP,
-			int bas_PORT) {
-		
+	private void Ack_Quit_Error(byte[] Req_Quit, String Bas_IP, int bas_PORT) {
+
 		Req_Quit[14] = (byte) 1;
 		System.out.println("发送下线请求超时回复报文: " + WR.Getbyte2HexString(Req_Quit));
 		DatagramSocket dataSocket = null;
@@ -148,8 +137,8 @@ public class PAP_Quit_V1 {
 			dataSocket = new DatagramSocket();
 			// 创建发送数据包并发送给服务器
 
-			DatagramPacket requestPacket = new DatagramPacket(Req_Quit,
-					Req_Quit.length, InetAddress.getByName(Bas_IP), bas_PORT);
+			DatagramPacket requestPacket = new DatagramPacket(Req_Quit, 16,
+					InetAddress.getByName(Bas_IP), bas_PORT);
 			dataSocket.send(requestPacket);
 			System.out.println("下线请求超时回复报文发送成功！！！");
 

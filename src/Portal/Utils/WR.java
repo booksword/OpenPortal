@@ -1,12 +1,14 @@
 package Portal.Utils;
+
 /**
  * 打印包内容
- * @author LeeSon  QQ:25901875
+ * 
+ * @author LeeSon QQ:25901875
  */
 public class WR {
 
 	public static String Getbyte2HexString(byte[] b) {
-		
+
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < b.length; i++) {
@@ -16,12 +18,12 @@ public class WR {
 			}
 			sb.append(hex);
 		}
-		return("["+sb.toString()+"]");
+		return ("[" + sb.toString() + "]");
 	}
-	
-	
-	public static void space(){
-		System.out.println("###############################################################################################################################################################################");
+
+	public static void space() {
+		System.out
+				.println("###############################################################################################################################################################################");
 	}
 
 }
