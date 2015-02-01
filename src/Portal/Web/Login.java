@@ -165,11 +165,9 @@ public class Login extends HttpServlet {
 			}else if(info==24){
 				request.setAttribute("msg", "用户认证失败");
 			}else if(info==55){
-				request.setAttribute("msg", "portalVer配置错误！！  0=Chap 1=pap");
-			}else if(info==66){
-				request.setAttribute("msg", "暂时不支持PAP认证方式  ！！");
+				request.setAttribute("msg", "配置文件错误（Portal协议版本或认证方式配置出错！！！）");
 			}else if(info==99){
-				request.setAttribute("msg", "未知错误！！请联系作者，QQ:25901875");
+				request.setAttribute("msg", "传递非法参数！！");
 			}
 			
 			RequestDispatcher qr=request.getRequestDispatcher("/index.jsp");

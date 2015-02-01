@@ -119,10 +119,10 @@ public class LoginOut extends HttpServlet {
 					request.setAttribute("msg", "请求下线被拒绝!！");
 				}else if(info==12){
 					request.setAttribute("msg", "请求下线出错!!");
+				}else if(info==55){
+					request.setAttribute("msg", "配置文件错误（Portal协议版本或认证方式配置出错！！！）");
 				}else if(info==99){
-					session.removeAttribute("username");
-					session.removeAttribute("password");
-					request.setAttribute("msg", "未知错误！！请联系作者，QQ:25901875");
+					request.setAttribute("msg", "传递非法参数！！");
 				}
 				
 				RequestDispatcher qr=request.getRequestDispatcher("/index.jsp");

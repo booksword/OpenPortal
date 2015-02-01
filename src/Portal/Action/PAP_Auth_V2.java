@@ -1,13 +1,11 @@
 package Portal.Action;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import Portal.Utils.Make_Authenticator;
-import Portal.Utils.Make_ChapPassword;
 import Portal.Utils.WR;
 import Portal.Utils.Write2Log;
 /**
@@ -15,52 +13,57 @@ import Portal.Utils.Write2Log;
  * @author LeeSon  QQ:25901875
  *
  */
-public class Auth_V2 {
+public class PAP_Auth_V2 {
 
-	// 创建ErrorInfo包
-	byte[] ErrorInfo = new byte[1];
-	// 创建ChapPassword包
-	byte[] ChapPassword = new byte[16];
+	
 	// 创建连接
 	DatagramSocket dataSocket;
 
-	public byte[] Action(String Bas_IP, int bas_PORT, int timeout_Sec,
-			byte[] buff, String in_username, String in_password, byte[] ReqID,
-			byte[] Challenge,String sharedSecret) {
+	public int Action(String Bas_IP, int bas_PORT, int timeout_Sec,String in_username, String in_password, byte[] SerialNo, String ip, String sharedSecret) {
 
 		byte[] Username = in_username.getBytes();
 		byte[] password = in_password.getBytes();
-		try {
-			ChapPassword = Make_ChapPassword.MK_ChapPwd(ReqID, Challenge,
-					password);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		byte[] UserIP=new byte[4];
+		String[] ips = ip.split("[.]");
+		// 将ip地址加入字段UserIP
+		for (int i = 0; i < 4; i++) {
+			int m = Integer.parseInt(ips[i]);
+			byte b = (byte) m;
+			UserIP[i] = b;
 		}
+		// 创建Req_Auth包
+		byte[] Req_Auth = new byte[32 + 4 + Username.length + password.length];
 
-		byte[] authbuff = new byte[4 + Username.length + ChapPassword.length];
+		Req_Auth[0] = (byte) 2;
+		Req_Auth[1] = (byte) 3;
+		Req_Auth[2] = (byte) 1;
+		Req_Auth[3] = (byte) 0;
+		Req_Auth[4] = SerialNo[0];
+		Req_Auth[5] = SerialNo[1];
+		Req_Auth[6] = (byte) 0;
+		Req_Auth[7] = (byte) 0;
+		Req_Auth[8] = UserIP[0];
+		Req_Auth[9] = UserIP[1];
+		Req_Auth[10] = UserIP[2];
+		Req_Auth[11] = UserIP[3];
+		Req_Auth[12] = (byte) 0;
+		Req_Auth[13] = (byte) 0;
+		Req_Auth[14] = (byte) 0;
+		Req_Auth[15] = (byte) 2;
+
+		byte[] authbuff = new byte[4 + Username.length + password.length];
 		authbuff[0] = (byte) 1;
 		authbuff[1] = (byte) (Username.length + 2);
 		for (int i = 0; i < Username.length; i++) {
 			authbuff[2 + i] = Username[i];
 		}
-		authbuff[2 + Username.length] = (byte) 4;
-		authbuff[3 + Username.length] = (byte) (ChapPassword.length + 2);
-		for (int i = 0; i < ChapPassword.length; i++) {
-			authbuff[4 + Username.length + i] = ChapPassword[i];
+		authbuff[2 + Username.length] = (byte) 2;
+		authbuff[3 + Username.length] = (byte) (password.length + 2);
+		for (int i = 0; i < password.length; i++) {
+			authbuff[4 + Username.length + i] = password[i];
 		}
 
-		// 创建Req_Auth包
-		byte[] Req_Auth = new byte[32 + authbuff.length];
-
-		// 给Req_Auth包赋值
-		for (int i = 0; i < 16; i++) {
-			Req_Auth[i] = buff[i];
-		}
-		Req_Auth[1] = (byte) 3;
-		Req_Auth[14] = (byte) 0;
-		short atrAttrNum = 2;
-		Req_Auth[15] = (byte) atrAttrNum;
+		
 		byte[] BBuff = new byte[16];
 		for (int i = 0; i < BBuff.length; i++) {
 			BBuff[i] = Req_Auth[i];
@@ -111,30 +114,26 @@ public class Auth_V2 {
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 1) {
 				System.out.println("用户认证请求被拒绝");
 				Write2Log.Wr2Log("用户认证请求被拒绝");
-				ErrorInfo[0] = (byte) 21;
-				return ErrorInfo;
+				return 21;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 2) {
 				System.out.println("用户链接已建立");
 				Write2Log.Wr2Log("用户链接已建立");
-				ErrorInfo[0] = (byte) 22;
-				return ErrorInfo;
+				return 22;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 3) {
 				System.out.println("有一个用户正在认证过程中，请稍后再试");
 				Write2Log.Wr2Log("有一个用户正在认证过程中，请稍后再试");
-				ErrorInfo[0] = (byte) 23;
-				return ErrorInfo;
+				return 23;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 4) {
 				System.out.println("用户认证失败（发生错误）");
 				Write2Log.Wr2Log("用户认证失败（发生错误）");
-				ErrorInfo[0] = (byte) 24;
-				return ErrorInfo;
+				return 24;
 			}
 
 		} catch (IOException e) {
 			System.out.println("用户认证服务器无响应！！！");
 			Write2Log.Wr2Log("用户认证服务器无响应！！！");
-			ErrorInfo[0] = (byte) 02;
-			return ErrorInfo;
+			new PAP_Quit_V2().Action(2, Bas_IP, bas_PORT, timeout_Sec, SerialNo, ip, sharedSecret);
+			return 02;
 		} finally {
 			dataSocket.close();
 		}
@@ -142,10 +141,20 @@ public class Auth_V2 {
 		// 创建AFF_Ack_Auth包
 		byte[] AFF_Ack_Auth_Data = new byte[32];
 		// 给AFF_ACK_AUTH包赋值
-		for (int i = 0; i < 16; i++) {
-			AFF_Ack_Auth_Data[i] = buff[i];
-		}
+		AFF_Ack_Auth_Data[0] = (byte) 1;
 		AFF_Ack_Auth_Data[1] = (byte) 7;
+		AFF_Ack_Auth_Data[2] = (byte) 1;
+		AFF_Ack_Auth_Data[3] = (byte) 0;
+		AFF_Ack_Auth_Data[4] = SerialNo[0];
+		AFF_Ack_Auth_Data[5] = SerialNo[1];
+		AFF_Ack_Auth_Data[6] = (byte) 0;
+		AFF_Ack_Auth_Data[7] = (byte) 0;
+		AFF_Ack_Auth_Data[8] = UserIP[0];
+		AFF_Ack_Auth_Data[9] = UserIP[1];
+		AFF_Ack_Auth_Data[10] = UserIP[2];
+		AFF_Ack_Auth_Data[11] = UserIP[3];
+		AFF_Ack_Auth_Data[12] = (byte) 0;
+		AFF_Ack_Auth_Data[13] = (byte) 0;
 		AFF_Ack_Auth_Data[14] = (byte) 0;
 		AFF_Ack_Auth_Data[15] = (byte) 0;
 
@@ -178,18 +187,16 @@ public class Auth_V2 {
 			dataSocket.send(requestPacket);
 			System.out.println("发送AFF_Ack_Auth成功！！");
 			Write2Log.Wr2Log("发送AFF_Ack_Auth成功！！");
+			return 0;
 
 		} catch (IOException e) {
 			System.out.println("发送AFF_Ack_Auth出错！！");
 			Write2Log.Wr2Log("发送AFF_Ack_Auth出错！！");
-			ErrorInfo[0] = (byte) 20;
-			return ErrorInfo;
+			return 0;
 		} finally {
 			dataSocket.close();
 		}
-		ErrorInfo[0] = (byte) 20;
-		return ErrorInfo;
-
+		
 	}
 
 }

@@ -10,7 +10,7 @@ import Portal.Utils.WR;
  * @author LeeSon  QQ:25901875
  *
  */
-public class Quit_V1 {
+public class Chap_Quit_V1 {
 
 	// 创建ErrorInfo包
 	byte[] ErrorInfo = new byte[1];

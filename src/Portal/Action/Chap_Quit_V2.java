@@ -13,7 +13,7 @@ import Portal.Utils.Write2Log;
  * @author LeeSon  QQ:25901875
  *
  */
-public class Quit_V2 {
+public class Chap_Quit_V2 {
 
 	// 创建ErrorInfo包
 	byte[] ErrorInfo = new byte[1];

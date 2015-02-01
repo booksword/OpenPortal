@@ -8,12 +8,13 @@ import java.net.InetAddress;
 
 import Portal.Utils.Make_ChapPassword;
 import Portal.Utils.WR;
+import Portal.Utils.Write2Log;
 /**
  * Auth_V1包
  * @author LeeSon  QQ:25901875
  *
  */
-public class Auth_V1 {
+public class Chap_Auth_V1 {
 
 	// 创建ErrorInfo包
 	byte[] ErrorInfo = new byte[1];
@@ -64,6 +65,7 @@ public class Auth_V1 {
 		}
 
 		System.out.println("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
+		Write2Log.Wr2Log("REQ Auth" + WR.Getbyte2HexString(Req_Auth));
 
 		try {
 
@@ -89,6 +91,7 @@ public class Auth_V1 {
 			}
 			System.out
 					.println("ACK Auth" + WR.Getbyte2HexString(ACK_Auth_Data));
+			Write2Log.Wr2Log("ACK Auth" + WR.Getbyte2HexString(ACK_Auth_Data));
 
 			if ((int) (ACK_Auth_Data[14] & 0xFF) == 0) {
 				System.out.println("认证成功！！");
@@ -130,6 +133,8 @@ public class Auth_V1 {
 		AFF_Ack_Auth_Data[15] = (byte) 0;
 
 		System.out.println("AFF_Ack_Auth"
+				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
+		Write2Log.Wr2Log("AFF_Ack_Auth"
 				+ WR.Getbyte2HexString(AFF_Ack_Auth_Data));
 
 		try {

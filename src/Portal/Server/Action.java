@@ -1,11 +1,15 @@
 package Portal.Server;
 
-import Portal.Action.Auth_V1;
-import Portal.Action.Auth_V2;
-import Portal.Action.Challenge_V1;
-import Portal.Action.Challenge_V2;
-import Portal.Action.Quit_V1;
-import Portal.Action.Quit_V2;
+import Portal.Action.Chap_Auth_V1;
+import Portal.Action.Chap_Auth_V2;
+import Portal.Action.Chap_Challenge_V1;
+import Portal.Action.Chap_Challenge_V2;
+import Portal.Action.Chap_Quit_V1;
+import Portal.Action.Chap_Quit_V2;
+import Portal.Action.PAP_Auth_V1;
+import Portal.Action.PAP_Auth_V2;
+import Portal.Action.PAP_Quit_V1;
+import Portal.Action.PAP_Quit_V2;
 import Portal.Utils.WR;
 import Portal.Utils.Write2Log;
 /**
@@ -47,26 +51,49 @@ public class Action {
 		int portal_Ver = Integer.parseInt(portalVer);
 		int auth_Type = Integer.parseInt(authType);
 		int timeout_Sec = Integer.parseInt(timeoutSec);
-		byte[] Buff = init(ip, portal_Ver, auth_Type);
-
-		if (auth_Type != 0) {
-			System.out.println("暂时不支持PAP认证方式  ！！");
-			return 66;
+		
+		
+		if ((auth_Type == 1)&&(portal_Ver == 1)) {
+			System.out.println("使用Portal V1协议，PAP认证方式！！");
+			if (Action.equals("Login")) {
+				
+				return new PAP_Auth_V1().Action(Bas_IP, bas_PORT, timeout_Sec, in_username, in_password, SerialNo, ip);
+				
+			}if (Action.equals("LoginOut")) {
+				return new PAP_Quit_V1().Action(0, Bas_IP, bas_PORT, timeout_Sec, SerialNo, ip);
+			}
+			return 99;
 		}
 		
-		if (portal_Ver == 2) {
+		
+		if ((auth_Type == 1)&&(portal_Ver == 2)) {
+			System.out.println("使用Portal V1协议，PAP认证方式！！");
+			if (Action.equals("Login")) {
+				
+				return new PAP_Auth_V2().Action(Bas_IP, bas_PORT, timeout_Sec, in_username, in_password, SerialNo, ip, sharedSecret);
+				
+			}if (Action.equals("LoginOut")) {
+				return new PAP_Quit_V2().Action(0, Bas_IP, bas_PORT, timeout_Sec, SerialNo, ip, sharedSecret);
+			}
+			return 99;
+		}
+		
+		
+		
+		
+		byte[] Buff = init(ip, portal_Ver, auth_Type);
+		
+		if ((auth_Type == 0)&&(portal_Ver == 2)) {
 			return Portal_V2(Action, in_username, in_password,
 					Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
 		}
 		
-		if (portal_Ver == 1) {
+		if ((auth_Type == 0)&&(portal_Ver == 1)) {
 			return Portal_V1(Action, in_username, in_password, Bas_IP, bas_PORT,
 					timeout_Sec, Buff);
 		}
+		return 55;
 		
-		else{
-			return 55;
-		}
 
 		
 	}
@@ -74,14 +101,14 @@ public class Action {
 	private int Portal_V2(String Action, String in_username,
 			String in_password, String Bas_IP,
 			int bas_PORT, int timeout_Sec, byte[] Buff, String sharedSecret) {
-		System.out.println("使用Portal V2协议 ！！");
+		System.out.println("使用Portal V2协议，Chap认证方式！！");
 		if (Action.equals("Login")) {
 			// 创建Ack_Challenge_V2包
-			byte[] Ack_Challenge_V2 = new Challenge_V2().Action(Bas_IP,
+			byte[] Ack_Challenge_V2 = new Chap_Challenge_V2().Action(Bas_IP,
 					bas_PORT, timeout_Sec, Buff, sharedSecret);
 			// 如果出错直接返回错误信息
 			if (Ack_Challenge_V2.length == 1) {
-				new Quit_V2()
+				new Chap_Quit_V2()
 						.Action(1, Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
 				return (int) (Ack_Challenge_V2[0] & 0xFF);
 			}
@@ -98,7 +125,7 @@ public class Action {
 			System.out.println("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			Write2Log.Wr2Log("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			// 创建Ack_Challenge_V2包
-			byte[] Ack_Auth_V2 = new Auth_V2().Action(Bas_IP, bas_PORT,
+			byte[] Ack_Auth_V2 = new Chap_Auth_V2().Action(Bas_IP, bas_PORT,
 					timeout_Sec, Buff, in_username, in_password, ReqID,
 					Challenge, sharedSecret);
 			// 如果出错直接返回错误信息
@@ -107,13 +134,13 @@ public class Action {
 			} else if ((int) (Ack_Auth_V2[0] & 0xFF) == 22) {
 				return 22;
 			} else {
-				new Quit_V2().Action(2, Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
+				new Chap_Quit_V2().Action(2, Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
 				return (int) (Ack_Auth_V2[0] & 0xFF);
 			}
 
 		}
 		if (Action.equals("LoginOut")) {
-			return new Quit_V2().Action(0, Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
+			return new Chap_Quit_V2().Action(0, Bas_IP, bas_PORT, timeout_Sec, Buff, sharedSecret);
 		}
 
 		return 99;
@@ -122,14 +149,14 @@ public class Action {
 	private int Portal_V1(String Action, String in_username,
 			String in_password, String Bas_IP, int bas_PORT, int timeout_Sec,
 			byte[] Buff) {
-		System.out.println("使用Portal V1协议 ！！");
+		System.out.println("使用Portal V1协议，Chap认证方式！！");
 		if (Action.equals("Login")) {
 			// 创建Ack_Challenge_V1包
-			byte[] Ack_Challenge_V1 = new Challenge_V1().Action(Bas_IP,
+			byte[] Ack_Challenge_V1 = new Chap_Challenge_V1().Action(Bas_IP,
 					bas_PORT, timeout_Sec, Buff);
 			// 如果出错直接返回错误信息
 			if (Ack_Challenge_V1.length == 1) {
-				new Quit_V1().Action(1, Bas_IP, bas_PORT, timeout_Sec, Buff);
+				new Chap_Quit_V1().Action(1, Bas_IP, bas_PORT, timeout_Sec, Buff);
 				return (int) (Ack_Challenge_V1[0] & 0xFF);
 			}
 
@@ -145,7 +172,7 @@ public class Action {
 			System.out.println("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			Write2Log.Wr2Log("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			// 创建Ack_Challenge_V1包
-			byte[] Ack_Auth_V1 = new Auth_V1().Action(Bas_IP, bas_PORT,
+			byte[] Ack_Auth_V1 = new Chap_Auth_V1().Action(Bas_IP, bas_PORT,
 					timeout_Sec, Buff, in_username, in_password, ReqID,
 					Challenge);
 			// 如果出错直接返回错误信息
@@ -154,12 +181,12 @@ public class Action {
 			} else if ((int) (Ack_Auth_V1[0] & 0xFF) == 22) {
 				return 22;
 			} else {
-				new Quit_V1().Action(2, Bas_IP, bas_PORT, timeout_Sec, Buff);
+				new Chap_Quit_V1().Action(2, Bas_IP, bas_PORT, timeout_Sec, Buff);
 				return (int) (Ack_Auth_V1[0] & 0xFF);
 			}
 		}
 		if (Action.equals("LoginOut")) {
-			return new Quit_V1().Action(0, Bas_IP, bas_PORT, timeout_Sec, Buff);
+			return new Chap_Quit_V1().Action(0, Bas_IP, bas_PORT, timeout_Sec, Buff);
 		}
 		return 99;
 	}
@@ -186,7 +213,7 @@ public class Action {
 		AttrNum[0] = (byte) 0;
 
 		// 创建Buff包
-		byte[] Buff = new byte[1024];
+		byte[] Buff = new byte[100];
 		// 给Buff包赋初始值
 		Buff[0] = Ver[0];
 		Buff[1] = Type[0];
