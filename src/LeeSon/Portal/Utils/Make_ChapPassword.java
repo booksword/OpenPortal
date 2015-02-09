@@ -1,4 +1,4 @@
-package Portal.Utils;
+package LeeSon.Portal.Utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

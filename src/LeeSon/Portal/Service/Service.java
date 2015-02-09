@@ -1,16 +1,20 @@
-package Portal.Server;
+package LeeSon.Portal.Service;
 
-import Portal.Action.Chap_Auth_V1;
-import Portal.Action.Chap_Auth_V2;
-import Portal.Action.Chap_Challenge_V1;
-import Portal.Action.Chap_Challenge_V2;
-import Portal.Action.Chap_Quit_V1;
-import Portal.Action.Chap_Quit_V2;
-import Portal.Action.PAP_Auth_V1;
-import Portal.Action.PAP_Auth_V2;
-import Portal.Action.PAP_Quit_V1;
-import Portal.Action.PAP_Quit_V2;
-import Portal.Utils.WR;
+import org.apache.log4j.Logger;
+
+import LeeSon.Portal.Domain.Config;
+import LeeSon.Portal.Service.Action.Chap_Auth_V1;
+import LeeSon.Portal.Service.Action.Chap_Auth_V2;
+import LeeSon.Portal.Service.Action.Chap_Challenge_V1;
+import LeeSon.Portal.Service.Action.Chap_Challenge_V2;
+import LeeSon.Portal.Service.Action.Chap_Quit_V1;
+import LeeSon.Portal.Service.Action.Chap_Quit_V2;
+import LeeSon.Portal.Service.Action.PAP_Auth_V1;
+import LeeSon.Portal.Service.Action.PAP_Auth_V2;
+import LeeSon.Portal.Service.Action.PAP_Quit_V1;
+import LeeSon.Portal.Service.Action.PAP_Quit_V2;
+import LeeSon.Portal.Utils.WR;
+import LeeSon.Portal.Utils.Write2Log;
 
 /**
  * 调用接口
@@ -18,15 +22,16 @@ import Portal.Utils.WR;
  * @author LeeSon QQ:25901875
  * 
  */
-public class Action {
+public class Service {
 	// 构建portal协议中的字段包
 
+	Logger logger=Logger.getLogger(Service.class);
 	byte[] SerialNo = new byte[2];
 	byte[] ReqID = new byte[2];
 	byte[] UserIP = new byte[4];
 	byte[] Challenge = new byte[16];
 
-	public Action() {
+	public Service() {
 		/*
 		 * 给SerialNo[]赋值 创建随机数SerialNo byte[]
 		 */
@@ -37,15 +42,24 @@ public class Action {
 		}
 	}
 
+	// public int Method(String Action, String in_username, String in_password,
+	// String ip, String basIP, String basPORT, String portalVer,
+	// String authType, String timeoutSec, String sharedSecret) {
 	public int Method(String Action, String in_username, String in_password,
-			String ip, String basIP, String basPORT, String portalVer,
-			String authType, String timeoutSec, String sharedSecret) {
+			String ip, Config cfg) {
 
-		String Bas_IP = basIP;
-		int bas_PORT = Integer.parseInt(basPORT);
-		int portal_Ver = Integer.parseInt(portalVer);
-		int auth_Type = Integer.parseInt(authType);
-		int timeout_Sec = Integer.parseInt(timeoutSec);
+		// String Bas_IP = basIP;
+		// int bas_PORT = Integer.parseInt(basPORT);
+		// int portal_Ver = Integer.parseInt(portalVer);
+		// int auth_Type = Integer.parseInt(authType);
+		// int timeout_Sec = Integer.parseInt(timeoutSec);
+
+		String Bas_IP = cfg.getBas_ip();
+		int bas_PORT = Integer.parseInt(cfg.getBas_port());
+		int portal_Ver = Integer.parseInt(cfg.getPortalVer());
+		int auth_Type = Integer.parseInt(cfg.getAuthType());
+		int timeout_Sec = Integer.parseInt(cfg.getTimeoutSec());
+		String sharedSecret = cfg.getSharedSecret();
 
 		/*
 		 * 给UserIP[]赋值 接收客户ip地址 IP地址压缩成4字节,如果要进一步处理的话,就可以转换成一个int了.
@@ -61,6 +75,8 @@ public class Action {
 		// V1 PAP
 		if ((auth_Type == 1) && (portal_Ver == 1)) {
 			System.out.println("使用Portal V1协议，PAP认证方式！！");
+			Write2Log.Wr2Log("使用Portal V1协议，PAP认证方式！！");
+			logger.debug("使用Portal V1协议，PAP认证方式！！");
 			if (Action.equals("Login")) {
 
 				return new PAP_Auth_V1().Action(Bas_IP, bas_PORT, timeout_Sec,
@@ -77,6 +93,8 @@ public class Action {
 		// V2 PAP
 		if ((auth_Type == 1) && (portal_Ver == 2)) {
 			System.out.println("使用Portal V2协议，PAP认证方式！！");
+			Write2Log.Wr2Log("使用Portal V2协议，PAP认证方式！！");
+			logger.debug("使用Portal V2协议，PAP认证方式！！");
 			if (Action.equals("Login")) {
 
 				return new PAP_Auth_V2().Action(Bas_IP, bas_PORT, timeout_Sec,
@@ -110,6 +128,8 @@ public class Action {
 			String in_password, String Bas_IP, int bas_PORT, int timeout_Sec,
 			byte[] SerialNo, byte[] UserIP, String sharedSecret) {
 		System.out.println("使用Portal V2协议，Chap认证方式！！");
+		Write2Log.Wr2Log("使用Portal V2协议，Chap认证方式！！");
+		logger.debug("使用Portal V2协议，Chap认证方式！！");
 		if (Action.equals("Login")) {
 			// 创建Ack_Challenge_V2包
 			byte[] Ack_Challenge_V2 = new Chap_Challenge_V2().Action(Bas_IP,
@@ -127,6 +147,8 @@ public class Action {
 			}
 			System.out
 					.println("获得Challenge：" + WR.Getbyte2HexString(Challenge));
+			Write2Log.Wr2Log("获得Challenge：" + WR.Getbyte2HexString(Challenge));
+			logger.debug("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			// 创建Ack_Challenge_V2包
 			byte[] Ack_Auth_V2 = new Chap_Auth_V2().Action(Bas_IP, bas_PORT,
 					timeout_Sec, in_username, in_password, SerialNo, UserIP,
@@ -155,6 +177,8 @@ public class Action {
 			String in_password, String Bas_IP, int bas_PORT, int timeout_Sec,
 			byte[] SerialNo, byte[] UserIP) {
 		System.out.println("使用Portal V1协议，Chap认证方式！！");
+		Write2Log.Wr2Log("使用Portal V1协议，Chap认证方式！！");
+		logger.debug("使用Portal V1协议，Chap认证方式！！");
 		if (Action.equals("Login")) {
 			// 创建Ack_Challenge_V1包
 			byte[] Ack_Challenge_V1 = new Chap_Challenge_V1().Action(Bas_IP,
@@ -172,6 +196,8 @@ public class Action {
 			}
 			System.out
 					.println("获得Challenge：" + WR.Getbyte2HexString(Challenge));
+			Write2Log.Wr2Log("获得Challenge：" + WR.Getbyte2HexString(Challenge));
+			logger.debug("获得Challenge：" + WR.Getbyte2HexString(Challenge));
 			// 创建Ack_Challenge_V1包
 			byte[] Ack_Auth_V1 = new Chap_Auth_V1().Action(Bas_IP, bas_PORT,
 					timeout_Sec, in_username, in_password, SerialNo, UserIP,

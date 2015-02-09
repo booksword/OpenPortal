@@ -1,4 +1,4 @@
-package Portal.Web;
+package LeeSon.Portal.Web;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,13 +7,20 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import Portal.Server.Action;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.jmx.LoggerDynamicMBean;
+
+import LeeSon.Portal.Domain.Config;
+import LeeSon.Portal.Service.Service;
+import LeeSon.Portal.Utils.Write2Log;
 
 /**
  * 登录判断
@@ -21,7 +28,9 @@ import Portal.Server.Action;
  * @author LeeSon QQ:25901875
  */
 public class Login extends HttpServlet {
+	public Config cfg = Config.getInstance();
 
+	Logger logger=Logger.getLogger(Login.class);
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -64,6 +73,7 @@ public class Login extends HttpServlet {
 		 * 如果相同，向下运行，否则保存错误信息到request域，转发到login.jsp
 		 */
 		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String sessionCode = (String) request.getSession().getAttribute(
 				"session_vcode");
 		String paramCode = request.getParameter("vcode");
@@ -91,55 +101,24 @@ public class Login extends HttpServlet {
 			return;
 		}
 
-		String bas_ip;
-		String bas_port;
-		String portal_port;
-		String sharedSecret;
-		String authType;
-		String timeoutSec;
-		String portalVer;
-		String cfgPath = request.getRealPath("/");// 获取服务器的webroot路径
-		FileInputStream fis = null;
-		Properties config = new Properties();
-		File file = new File(cfgPath + "config.properties");
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("config.properties 配置文件不存在！！");
-			request.setAttribute("msg", "config.properties 配置文件不存在！！");
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-			return;
+		ServletContext sc = this.getServletContext();
+		if (sc.getAttribute("config") == null) {
+			InitConfig(request, response, cfg);
+			ServletContext context = this.getServletContext();
+			context.setAttribute("config", cfg);
 		}
 
-		try {
-			config.load(fis);
-			bas_ip = config.getProperty("bas_ip");
-			bas_port = config.getProperty("bas_port");
-			portal_port = config.getProperty("portal_port");
-			sharedSecret = config.getProperty("sharedSecret");
-			authType = config.getProperty("authType");
-			timeoutSec = config.getProperty("timeoutSec");
-			portalVer = config.getProperty("portalVer");
-			// #chap 0 pap 1
+		System.out.println("请求认证    用户：" + username + " 密码:" + password
+				+ " IP地址:" + ip);
+		Write2Log.Wr2Log("请求认证    用户：" + username + " 密码:" + password
+				+ " IP地址:" + ip);
+		logger.debug("请求认证    用户：" + username + " 密码:" + password
+				+ " IP地址:" + ip);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("config.properties 数据库配置文件读取失败！！");
-			request.setAttribute("msg", "config.properties 数据库配置文件读取失败！！");
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-			return;
-		} finally {
-			fis.close();
-		}
-		System.out.println(config);
-
-		int info = new Action().Method("Login", username, password, ip, bas_ip,
-				bas_port, portalVer, authType, timeoutSec, sharedSecret);
+		// int info = new Action().Method("Login", username, password, ip,
+		// bas_ip,
+		// bas_port, portalVer, authType, timeoutSec, sharedSecret);
+		int info = new Service().Method("Login", username, password, ip, cfg);
 		if (info == 0 || info == 22) {
 			Cookie cookie = new Cookie("uname", username);
 			cookie.setMaxAge(60 * 60 * 24);
@@ -183,6 +162,67 @@ public class Login extends HttpServlet {
 			RequestDispatcher qr = request.getRequestDispatcher("/index.jsp");
 			qr.forward(request, response);
 		}
+	}
+
+	private void InitConfig(HttpServletRequest request,
+			HttpServletResponse response, Config cfg) throws ServletException,
+			IOException {
+		String bas_ip;
+		String bas_port;
+		String portal_port;
+		String sharedSecret;
+		String authType;
+		String timeoutSec;
+		String portalVer;
+		String cfgPath = request.getRealPath("/");// 获取服务器的webroot路径
+		FileInputStream fis = null;
+		Properties config = new Properties();
+		File file = new File(cfgPath + "config.properties");
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("config.properties 配置文件不存在！！");
+			request.setAttribute("msg", "config.properties 配置文件不存在！！");
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+			return;
+		}
+
+		try {
+			config.load(fis);
+			// bas_ip = config.getProperty("bas_ip");
+			// bas_port = config.getProperty("bas_port");
+			// portal_port = config.getProperty("portal_port");
+			// sharedSecret = config.getProperty("sharedSecret");
+			// authType = config.getProperty("authType");
+			// timeoutSec = config.getProperty("timeoutSec");
+			// portalVer = config.getProperty("portalVer");
+
+			cfg.setBas_ip(config.getProperty("bas_ip"));
+			cfg.setBas_port(config.getProperty("bas_port"));
+			cfg.setPortal_port(config.getProperty("portal_port"));
+			cfg.setSharedSecret(config.getProperty("sharedSecret"));
+			cfg.setAuthType(config.getProperty("authType"));
+			cfg.setTimeoutSec(config.getProperty("timeoutSec"));
+			cfg.setPortalVer(config.getProperty("portalVer"));
+			// #chap 0 pap 1
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("config.properties 数据库配置文件读取失败！！");
+			request.setAttribute("msg", "config.properties 数据库配置文件读取失败！！");
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+			return;
+		} finally {
+			fis.close();
+		}
+		Write2Log.Wr2Log("初始化参数，读取配置文件：" + config);
+		System.out.println("初始化参数，读取配置文件：" + config);
+		logger.debug("初始化参数，读取配置文件：" + config);
 	}
 
 }

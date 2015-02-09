@@ -1,11 +1,11 @@
-package Portal.Action;
+package LeeSon.Portal.Service.Action;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import Portal.Utils.WR;
+import LeeSon.Portal.Utils.WR;
 
 /**
  * Auth_V1包

@@ -1,4 +1,4 @@
-package Portal.Web;
+package LeeSon.Portal.Web;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import Portal.Server.Action;
+
+import org.apache.log4j.Logger;
+
+import LeeSon.Portal.Domain.Config;
+import LeeSon.Portal.Service.Service;
+import LeeSon.Portal.Utils.Write2Log;
 
 /**
  * 退出
@@ -23,20 +28,7 @@ import Portal.Server.Action;
  */
 public class LoginOut extends HttpServlet {
 
-	/**
-	 * The doGet method of the servlet. <br>
-	 * 
-	 * This method is called when a form has its tag value method equals to get.
-	 * 
-	 * @param request
-	 *            the request send by the client to the server
-	 * @param response
-	 *            the response send by the server to the client
-	 * @throws ServletException
-	 *             if an error occurred
-	 * @throws IOException
-	 *             if an error occurred
-	 */
+	Logger logger=Logger.getLogger(LoginOut.class);
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -49,61 +41,21 @@ public class LoginOut extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String bas_ip;
-		String bas_port;
-		String portal_port;
-		String sharedSecret;
-		String authType;
-		String timeoutSec;
-		String portalVer;
-		String cfgPath = request.getRealPath("/");// 获取服务器的webroot路径
-		FileInputStream fis = null;
-		Properties config = new Properties();
-		File file = new File(cfgPath + "config.properties");
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("config.properties 配置文件不存在！！");
-			request.setAttribute("msg", "config.properties 配置文件不存在！！");
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-			return;
-		}
-
-		try {
-			config.load(fis);
-			bas_ip = config.getProperty("bas_ip");
-			bas_port = config.getProperty("bas_port");
-			portal_port = config.getProperty("portal_port");
-			sharedSecret = config.getProperty("sharedSecret");
-			authType = config.getProperty("authType");
-			timeoutSec = config.getProperty("timeoutSec");
-			portalVer = config.getProperty("portalVer");
-			// #chap 0 pap 1
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("config.properties 数据库配置文件读取失败！！");
-			request.setAttribute("msg", "config.properties 数据库配置文件读取失败！！");
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-			return;
-		}
-		System.out.println(config);
-
 		try {
 			HttpSession session = request.getSession();
 			String ip = (String) session.getAttribute("ip");
 			String username = (String) session.getAttribute("username");
 			String password = (String) session.getAttribute("password");
+			System.out.println("请求下线    用户：" + username + " 密码:" + password
+					+ " IP地址:" + ip);
+			Write2Log.Wr2Log("请求下线    用户：" + username + " 密码:" + password
+					+ " IP地址:" + ip);
+			logger.debug("请求下线    用户：" + username + " 密码:" + password
+					+ " IP地址:" + ip);
 			int info = 99;
 			if (!(ip.equals("") || ip == null)) {
-				info = new Action().Method("LoginOut", username, password, ip,
-						bas_ip, bas_port, portalVer, authType, timeoutSec,
-						sharedSecret);
+				info = new Service().Method("LoginOut", username, password, ip,
+						Config.getInstance());
 			} else {
 				session.removeAttribute("username");
 				session.removeAttribute("password");

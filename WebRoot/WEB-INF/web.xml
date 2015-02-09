@@ -774,22 +774,22 @@ standard deployment descriptor.
 -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
   <servlet>
-    <description>This is the description of my J2EE component FServlet</description>
-    <display-name>This is the display name of my J2EE component FServlet</display-name>
+    <description>LoginServlet</description>
+    <display-name>LoginServlet</display-name>
     <servlet-name>Login</servlet-name>
-    <servlet-class>Portal.Web.Login</servlet-class>
+    <servlet-class>LeeSon.Portal.Web.Login</servlet-class>
   </servlet>
   <servlet>
-    <description>This is the description of my J2EE component FServlet</description>
-    <display-name>This is the display name of my J2EE component FServlet</display-name>
+    <description>VCodeServlet</description>
+    <display-name>VCodeServlet</display-name>
     <servlet-name>VCodeServlet</servlet-name>
-    <servlet-class>Portal.Web.VCodeServlet</servlet-class>
+    <servlet-class>LeeSon.Portal.Web.VCodeServlet</servlet-class>
   </servlet>
   <servlet>
-    <description>This is the description of my J2EE component FServlet</description>
-    <display-name>This is the display name of my J2EE component FServlet</display-name>
+    <description>LoginOutServlet</description>
+    <display-name>LoginOutServlet</display-name>
     <servlet-name>LoginOut</servlet-name>
-    <servlet-class>Portal.Web.LoginOut</servlet-class>
+    <servlet-class>LeeSon.Portal.Web.LoginOut</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>

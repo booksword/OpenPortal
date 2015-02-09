@@ -1,73 +1,73 @@
-OpenPortal¿ªÔ´Portal·şÎñ
+OpenPortalå¼€æºPortalæœåŠ¡
 
-×÷Õß£ºLeeSon  QQ:25901875  E-Mail:LeeSon@vip.qq.com
+ä½œè€…ï¼šLeeSon  QQ:25901875  E-Mail:LeeSon@vip.qq.com
 
-    ¸ÃÈí¼şÊÇ»ùÓÚ»ªÎªAC/BAS PORTALĞ­ÒéµÄ·şÎñ¶Ë³ÌĞò£¬Java±àĞ´£¬¿ªÔ´¡£
-×îĞÂÔ´´úÂëÏÂÔØµØÖ·£ºhttps://github.com/lishuocool
-°üº¬ OpenPortal  ACÄ£ÄâÆ÷  ToughRadius ÈıÌ×´úÂë
+    è¯¥è½¯ä»¶æ˜¯åŸºäºåä¸ºAC/BAS PORTALåè®®çš„æœåŠ¡ç«¯ç¨‹åºï¼ŒJavaç¼–å†™ï¼Œå¼€æºã€‚
+æœ€æ–°æºä»£ç ä¸‹è½½åœ°å€ï¼šhttps://github.com/lishuocool
+åŒ…å« OpenPortal  ACæ¨¡æ‹Ÿå™¨  ToughRadius ä¸‰å¥—ä»£ç 
 
-ĞÂÊÖ°²×°ÅäÖÃËµÃ÷£º
+æ–°æ‰‹å®‰è£…é…ç½®è¯´æ˜ï¼š
 
-1.Ê×ÏÈ±£Ö¤ÒÑÓĞJDK1.7»·¾³
+1.é¦–å…ˆä¿è¯å·²æœ‰JDK1.7ç¯å¢ƒ
 
-2.½âÑ¹Â·¾¶ÎŞÖĞÎÄ¼°¿Õ¸ñ
+2.è§£å‹è·¯å¾„æ— ä¸­æ–‡åŠç©ºæ ¼
 
-3.ÅäÖÃÎÄ¼şËµÃ÷   \webapps\ROOT\config.properties
+3.é…ç½®æ–‡ä»¶è¯´æ˜   \webapps\ROOT\config.properties
 
-bas_ip=192.168.0.2  //ACÉè±¸IPµØÖ·
-bas_port=2000       //ACÉè±¸Í¨ĞÅ¶Ë¿Ú  ¡¾ÎŞĞèĞŞ¸Ä¡¿
-portal_port=50100   //PORTAL·şÎñ¼àÌı¶Ë¿Ú  ¡¾ÎŞĞèĞŞ¸Ä¡¿
-sharedSecret=LeeSon //¹²ÏíÃÜÔ¿
-authType=0          //ÈÏÖ¤ÀàĞÍ 0 chap   1 pap  
-timeoutSec=3        //³¬Ê± 3Ãë  ¡¾ÎŞĞèĞŞ¸Ä¡¿
-portalVer=1         //PORTALĞ­Òé°æ±¾
+bas_ip=192.168.0.2  //ACè®¾å¤‡IPåœ°å€
+bas_port=2000       //ACè®¾å¤‡é€šä¿¡ç«¯å£  ã€æ— éœ€ä¿®æ”¹ã€‘
+portal_port=50100   //PORTALæœåŠ¡ç›‘å¬ç«¯å£  ã€æ— éœ€ä¿®æ”¹ã€‘
+sharedSecret=LeeSon //å…±äº«å¯†é’¥
+authType=0          //è®¤è¯ç±»å‹ 0 chap   1 pap  
+timeoutSec=3        //è¶…æ—¶ 3ç§’  ã€æ— éœ€ä¿®æ”¹ã€‘
+portalVer=1         //PORTALåè®®ç‰ˆæœ¬
 
-4.ÅäÖÃACÉè±¸ °²×°ºÍÅäÖÃRadius·şÎñ
-  Èç¹ûÊ¹ÓÃACÄ£ÄâÆ÷½øĞĞÄ£Äâ²âÊÔÔò¿ÉºöÂÔÕâ²¿
+4.é…ç½®ACè®¾å¤‡ å®‰è£…å’Œé…ç½®RadiusæœåŠ¡
+  å¦‚æœä½¿ç”¨ACæ¨¡æ‹Ÿå™¨è¿›è¡Œæ¨¡æ‹Ÿæµ‹è¯•åˆ™å¯å¿½ç•¥è¿™éƒ¨
 
-5.ÔËĞĞ ¡¾ÔËĞĞ OpenPortal  ·şÎñÆ÷¡¿¿ì½İ·½Ê½  Linux»·¾³µÄ»°£¬¶¼ÊÇ¸ßÊÖ²»ÓÃÎÒËµÁË
+5.è¿è¡Œ ã€è¿è¡Œ OpenPortal  æœåŠ¡å™¨ã€‘å¿«æ·æ–¹å¼  Linuxç¯å¢ƒçš„è¯ï¼Œéƒ½æ˜¯é«˜æ‰‹ä¸ç”¨æˆ‘è¯´äº†
 
-6.ä¯ÀÀÆ÷http://·şÎñÆ÷IP
+6.æµè§ˆå™¨http://æœåŠ¡å™¨IP
 
-6.Èç¹ûÊ¹ÓÃACÄ£ÄâÆ÷²âÊÔÓÃ»§ÃûÃÜÂëËæÒâ  Èç¹ûÕæÊµ»·¾³£¨²»ÓÃÎÒ·Ï»°ÁË£©
+6.å¦‚æœä½¿ç”¨ACæ¨¡æ‹Ÿå™¨æµ‹è¯•ç”¨æˆ·åå¯†ç éšæ„  å¦‚æœçœŸå®ç¯å¢ƒï¼ˆä¸ç”¨æˆ‘åºŸè¯äº†ï¼‰
 
 -----------------------------------------------------------------------------
-ÍÆ¼öToughRADIUS·şÎñÆ÷  ±ã½İ¿ªÔ´ºÃÓÃ ¾ßÌå°²×°ÅäÖÃ¼ûhttp://forum.toughradius.net
+æ¨èToughRADIUSæœåŠ¡å™¨  ä¾¿æ·å¼€æºå¥½ç”¨ å…·ä½“å®‰è£…é…ç½®è§http://forum.toughradius.net
 
 
-ÒÑ»ªÎªS5700½»»»»úÎªÀı£¬ÅäÖÃĞÅÏ¢£º
+å·²åä¸ºS5700äº¤æ¢æœºä¸ºä¾‹ï¼Œé…ç½®ä¿¡æ¯ï¼š
 
-½»»»»úÅäÖÃÈçÏÂÅäÖÃ²½Öè
-²½Öè 1  
-´´½¨ VLAN ²¢ÅäÖÃ½Ó¿ÚÔÊĞíÍ¨¹ıµÄ VLAN£¬±£Ö¤ÍøÂçÍ¨³©¡£
-# ´´½¨ VLAN10 ºÍ VLAN20¡£
+äº¤æ¢æœºé…ç½®å¦‚ä¸‹é…ç½®æ­¥éª¤
+æ­¥éª¤ 1  
+åˆ›å»º VLAN å¹¶é…ç½®æ¥å£å…è®¸é€šè¿‡çš„ VLANï¼Œä¿è¯ç½‘ç»œé€šç•…ã€‚
+# åˆ›å»º VLAN10 å’Œ VLAN20ã€‚
 [SWITCH] vlan batch 10 20 
-# ÅäÖÃ½»»»»úÁ¬½ÓÉÏĞĞÍøÂçµÄ½Ó¿Ú E0/0/1 Îª Access ÀàĞÍ½Ó¿Ú£¬²¢½« GE0/0/1 ¼ÓÈë
-VLAN20¡£
+# é…ç½®äº¤æ¢æœºè¿æ¥ä¸Šè¡Œç½‘ç»œçš„æ¥å£ E0/0/1 ä¸º Access ç±»å‹æ¥å£ï¼Œå¹¶å°† GE0/0/1 åŠ å…¥
+VLAN20ã€‚
 [SWITCH] interface Ethernet0/0/1
 [SWITCH-Ethernet0/0/2] port link-type access 
 [SWITCH-Ethernet0/0/2] port default vlan 20
 [SWITCH-Ethernet0/0/2] quit 
 
-# ÅäÖÃ½»»»»úÁ¬½Ó RADIUS ºÍ portalServer µÄ½Ó¿Ú E0/0/2 ÎªAccess ÀàĞÍ½Ó¿Ú£¬²¢
-½« GE0/0/2 ¼ÓÈë VLAN20¡£
+# é…ç½®äº¤æ¢æœºè¿æ¥ RADIUS å’Œ portalServer çš„æ¥å£ E0/0/2 ä¸ºAccess ç±»å‹æ¥å£ï¼Œå¹¶
+å°† GE0/0/2 åŠ å…¥ VLAN20ã€‚
 [SWITCH] interface Ethernet0/0/2 
 [SWITCH-Ethernet0/0/2] port link-type access 
 [SWITCH-Ethernet0/0/2] port default vlan 20 
 [SWITCH-Ethernet0/0/2] quit 
 
-# ´´½¨ VLANIF10 ºÍ VLANIF20£¬²¢ÅäÖÃVLANIF µÄ IP µØÖ·£¬ÒÔÊ¹ÓÃ»§ÖÕ¶Ë¡¢Switch¡¢
-ÆóÒµÄÚÍø×ÊÔ´Ö®¼äÄÜ¹»½¨Á¢ÆğÂ·ÓÉ¡£´Ë´¦¼ÙÉè VLANIF10 µÄ IP µØÖ·Îª192.168.10.20/24£»
-VLANIF20 µÄ IP µØÖ·Îª 192.168.20.29/24¡£
+# åˆ›å»º VLANIF10 å’Œ VLANIF20ï¼Œå¹¶é…ç½®VLANIF çš„ IP åœ°å€ï¼Œä»¥ä½¿ç”¨æˆ·ç»ˆç«¯ã€Switchã€
+ä¼ä¸šå†…ç½‘èµ„æºä¹‹é—´èƒ½å¤Ÿå»ºç«‹èµ·è·¯ç”±ã€‚æ­¤å¤„å‡è®¾ VLANIF10 çš„ IP åœ°å€ä¸º192.168.10.20/24ï¼›
+VLANIF20 çš„ IP åœ°å€ä¸º 192.168.20.29/24ã€‚
 [SWITCH] interface vlanif 10 
 [SWITCH-Vlanif10] ip address 192.168.10.20 24    //10.1
 
 [SWITCH] interface vlanif 20 
 [SWITCH-Vlanif20] ip address 192.168.0.1 24    //0.1
 [SWITCH-Vlanif20] quit 
-²½Öè 2  
-´´½¨²¢ÅäÖÃ RADIUS ·şÎñÆ÷Ä£°å¡¢AAA ·½°¸ÒÔ¼°ÈÏÖ¤Óò¡£
-# ´´½¨²¢ÅäÖÃ RADIUS ·şÎñÆ÷Ä£°å¡°rd1¡±¡£
+æ­¥éª¤ 2  
+åˆ›å»ºå¹¶é…ç½® RADIUS æœåŠ¡å™¨æ¨¡æ¿ã€AAA æ–¹æ¡ˆä»¥åŠè®¤è¯åŸŸã€‚
+# åˆ›å»ºå¹¶é…ç½® RADIUS æœåŠ¡å™¨æ¨¡æ¿â€œrd1â€ã€‚
 [SWITCH] radius-server template rd1 
 [SWITCH-radius-rd1] radius-server authentication 192.168.0.2 1812 
 [SWITCH-radius-rd1] radius-server accounting 192.168.0.2 1813 
@@ -75,7 +75,7 @@ VLANIF20 µÄ IP µØÖ·Îª 192.168.20.29/24¡£
 [SWITCH-radius-rd1] radius-server retransmit 2 
 [SWITCH-radius-rd1] quit 
 
-# ´´½¨ AAA ·½°¸¡°abc¡±²¢ÅäÖÃÈÏÖ¤·½Ê½Îª RADIUS¡£
+# åˆ›å»º AAA æ–¹æ¡ˆâ€œabcâ€å¹¶é…ç½®è®¤è¯æ–¹å¼ä¸º RADIUSã€‚
 [SWITCH] aaa 
 [SWITCH-aaa] authentication-scheme abc 
 [SWITCH-aaa-authen-abc] authentication-mode radius 
@@ -83,7 +83,7 @@ VLANIF20 µÄ IP µØÖ·Îª 192.168.20.29/24¡£
 [SWITCH-aaa] accounting-scheme acc 
 [SWITCH-aaa-acc-abc] accounting-mode radius 
 [SWITCH-aaa-acc-abc] quit 
-# ´´½¨ÈÏÖ¤Óò¡°leeson.org¡±£¬²¢ÔÚÆäÉÏ°ó¶¨AAA ·½°¸¡°abc¡±ÓëRADIUS ·şÎñÆ÷Ä£°å¡°rd1¡±¡£
+# åˆ›å»ºè®¤è¯åŸŸâ€œleeson.orgâ€ï¼Œå¹¶åœ¨å…¶ä¸Šç»‘å®šAAA æ–¹æ¡ˆâ€œabcâ€ä¸RADIUS æœåŠ¡å™¨æ¨¡æ¿â€œrd1â€ã€‚
 [SWITCH-aaa] domain leeson.org 
 [SWITCH-aaa-domain-isp1] authentication-scheme abc 
 [SWITCH-aaa-domain-isp1] accounting-scheme acc 
@@ -91,14 +91,14 @@ VLANIF20 µÄ IP µØÖ·Îª 192.168.20.29/24¡£
 [SWITCH-aaa-domain-isp1] quit 
 [SWITCH-aaa] quit 
 
-# ÅäÖÃÈ«¾ÖÄ¬ÈÏÓòÎª¡°leeson.org¡±¡£ÓÃ»§½øĞĞ½ÓÈëÈÏÖ¤Ê±£¬ÒÔ¸ñÊ½¡°user@xxx.xxx¡±Êä
-ÈëÓÃ»§Ãû¼´¿ÉÔÚxxx.xxx ÓòÏÂ½øĞĞ aaa ÈÏÖ¤¡£Èç¹ûÓÃ»§ÃûÖĞ²»Ğ¯´øÓòÃû»òĞ¯´øµÄÓòÃû
-²»´æÔÚ£¬ÓÃ»§½«»áÔÚÄ¬ÈÏÓòÖĞ½øĞĞÈÏÖ¤¡£
+# é…ç½®å…¨å±€é»˜è®¤åŸŸä¸ºâ€œleeson.orgâ€ã€‚ç”¨æˆ·è¿›è¡Œæ¥å…¥è®¤è¯æ—¶ï¼Œä»¥æ ¼å¼â€œuser@xxx.xxxâ€è¾“
+å…¥ç”¨æˆ·åå³å¯åœ¨xxx.xxx åŸŸä¸‹è¿›è¡Œ aaa è®¤è¯ã€‚å¦‚æœç”¨æˆ·åä¸­ä¸æºå¸¦åŸŸåæˆ–æºå¸¦çš„åŸŸå
+ä¸å­˜åœ¨ï¼Œç”¨æˆ·å°†ä¼šåœ¨é»˜è®¤åŸŸä¸­è¿›è¡Œè®¤è¯ã€‚
 [SWITCH] domain leeson.org 
 
-²½Öè 3  
-ÅäÖÃÍâ²¿ Portal ÈÏÖ¤
-# ´´½¨²¢ÅäÖÃÃû³ÆÎª¡°abc¡±µÄ Portal ·şÎñÆ÷Ä£°å¡£
+æ­¥éª¤ 3  
+é…ç½®å¤–éƒ¨ Portal è®¤è¯
+# åˆ›å»ºå¹¶é…ç½®åç§°ä¸ºâ€œabcâ€çš„ Portal æœåŠ¡å™¨æ¨¡æ¿ã€‚
 [SWITCH] web-auth-server abc 
 [SWITCH -web-auth-server-abc] server-ip 192.168.0.2 
 [SWITCH -web-auth-server-abc] port 50100 
@@ -106,15 +106,15 @@ VLANIF20 µÄ IP µØÖ·Îª 192.168.20.29/24¡£
 [SWITCH -web-auth-server-abc] url http://192.168.0.2
 [SWITCH -web-auth-server-abc] quit 
 
-# Ê¹ÄÜ Portal ÈÏÖ¤¹¦ÄÜ¡£
+# ä½¿èƒ½ Portal è®¤è¯åŠŸèƒ½ã€‚
 [SWITCH] interface vlanif 10 
 [SWITCH -Vlanif10] web-auth-server abc direct
 [SWITCH -Vlanif10] quit 
 
-²½Öè 4  
-²é¿´ÅäÖÃµÄ Portal ·şÎñÆ÷µÄ²ÎÊıĞÅÏ¢¡£
-# Ö´ĞĞÃüÁî display web-auth-server configuration ²é¿´ Portal ·şÎñÆ÷Ïà¹ØµÄ
-ÅäÖÃĞÅÏ¢¡£
+æ­¥éª¤ 4  
+æŸ¥çœ‹é…ç½®çš„ Portal æœåŠ¡å™¨çš„å‚æ•°ä¿¡æ¯ã€‚
+# æ‰§è¡Œå‘½ä»¤ display web-auth-server configuration æŸ¥çœ‹ Portal æœåŠ¡å™¨ç›¸å…³çš„
+é…ç½®ä¿¡æ¯ã€‚
 <SWITCH>display web-auth-server configuration
    Listening port        : 2000   
 Portal                : version 1, version 2  
@@ -129,28 +129,28 @@ Bounded Vlanif       : 10
   -----------------------------------------------------------------------
  -   1 Web authentication server(s) in total 
 
-²½Öè 5  
-ÔÚ½»»»»úÉÏÌí¼ÓÄ¬ÈÏÂ·ÓÉ£ºip route-static 0.0.0.0 0.0.0.0 192.168.0.1 
-ÆäÖĞ 192.168.0.1Îª½»»»»úÉÏĞĞ¶Ë¿ÚµÄÍø¹ØµØÖ·
+æ­¥éª¤ 5  
+åœ¨äº¤æ¢æœºä¸Šæ·»åŠ é»˜è®¤è·¯ç”±ï¼šip route-static 0.0.0.0 0.0.0.0 192.168.0.1 
+å…¶ä¸­ 192.168.0.1ä¸ºäº¤æ¢æœºä¸Šè¡Œç«¯å£çš„ç½‘å…³åœ°å€
 
-²½Öè 6  
-ÅäÖÃ portal °×Ãûµ¥
+æ­¥éª¤ 6  
+é…ç½® portal ç™½åå•
 portal free-rule 0 destination ip 192.168.0.1 mask 255.255.255.255 
 portal free-rule 1 destination ip 192.168.0.2 mask 255.255.255.255 
 portal free-rule 2 destination ip xxx.xxx.xxx.xxx mask 255.255.255.255 
-ÆäÖĞµÄ xxx.xxx.xxx.xxx ÎªÓÃ»§ÈÏÖ¤Ö®ºóÉÏÍøËùĞèµÄ DNS µØÖ·£¬Êµ¼ÊÒÔÕæÊµÍøÂç»·¾³ÖĞµÄ DNSÎª×¼
-//ÅÅ³ıÍø¹Ø PORTAL·şÎñÆ÷ Radius·şÎñÆ÷ DNS
+å…¶ä¸­çš„ xxx.xxx.xxx.xxx ä¸ºç”¨æˆ·è®¤è¯ä¹‹åä¸Šç½‘æ‰€éœ€çš„ DNS åœ°å€ï¼Œå®é™…ä»¥çœŸå®ç½‘ç»œç¯å¢ƒä¸­çš„ DNSä¸ºå‡†
+//æ’é™¤ç½‘å…³ PORTALæœåŠ¡å™¨ RadiusæœåŠ¡å™¨ DNS
 
-¿ÉÑ¡ÅäÖÃ£º
-½Ó¿ÚÊÓÍ¼ÏÂ£¨vlan-if£¬ge£©£ºdhcp select relay
-# Ê¹ÄÜ½Ó¿ÚVLANIF100µÄDHCP Relay¹¦ÄÜ¡£
+å¯é€‰é…ç½®ï¼š
+æ¥å£è§†å›¾ä¸‹ï¼ˆvlan-ifï¼Œgeï¼‰ï¼šdhcp select relay
+# ä½¿èƒ½æ¥å£VLANIF100çš„DHCP RelayåŠŸèƒ½ã€‚
 [HUAWEI] dhcp enable
 [HUAWEI] interface vlanif 100
 [HUAWEI-Vlanif100] dhcp select relay
 
-#PortalÓÃ»§ÏÂÏßÌ½²â
-portal timer offline-detectÃüÁîÓÃÀ´ÅäÖÃPortalÈÏÖ¤ÓÃ»§ÏÂÏßÌ½²âÖÜÆÚ¡£
-undo portal timer offline-detectÃüÁîÓÃÀ´»Ö¸´ÏÂÏßÌ½²âÖÜÆÚµÄÈ±Ê¡Öµ¡£
-È±Ê¡Çé¿öÏÂ£¬ÏÂÏßÌ½²âÖÜÆÚÎª300Ãë¡£
-×¢Òâ£ºportal timer offline-detectÃüÁî¹¦ÄÜ½öÊÊÓÃÓÚ¶ş²ãPortalÈÏÖ¤·½Ê½¡£
+#Portalç”¨æˆ·ä¸‹çº¿æ¢æµ‹
+portal timer offline-detectå‘½ä»¤ç”¨æ¥é…ç½®Portalè®¤è¯ç”¨æˆ·ä¸‹çº¿æ¢æµ‹å‘¨æœŸã€‚
+undo portal timer offline-detectå‘½ä»¤ç”¨æ¥æ¢å¤ä¸‹çº¿æ¢æµ‹å‘¨æœŸçš„ç¼ºçœå€¼ã€‚
+ç¼ºçœæƒ…å†µä¸‹ï¼Œä¸‹çº¿æ¢æµ‹å‘¨æœŸä¸º300ç§’ã€‚
+æ³¨æ„ï¼športal timer offline-detectå‘½ä»¤åŠŸèƒ½ä»…é€‚ç”¨äºäºŒå±‚Portalè®¤è¯æ–¹å¼ã€‚
 

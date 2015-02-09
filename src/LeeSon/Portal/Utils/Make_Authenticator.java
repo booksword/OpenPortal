@@ -1,4 +1,4 @@
-package Portal.Utils;
+package LeeSon.Portal.Utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

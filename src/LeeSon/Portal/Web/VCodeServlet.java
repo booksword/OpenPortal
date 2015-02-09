@@ -1,4 +1,4 @@
-package Portal.Web;
+package LeeSon.Portal.Web;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import LeeSon.Portal.Utils.VerifyCode;
 
 /**
  * 验证码判断

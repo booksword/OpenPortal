@@ -1,12 +1,14 @@
-package Portal.Action;
+package LeeSon.Portal.Service.Action;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import Portal.Utils.Make_Authenticator;
-import Portal.Utils.WR;
+import LeeSon.Portal.Utils.Make_Authenticator;
+import LeeSon.Portal.Utils.Make_ChapPassword;
+import LeeSon.Portal.Utils.WR;
 
 /**
  * Auth_V2包
@@ -14,29 +16,53 @@ import Portal.Utils.WR;
  * @author LeeSon QQ:25901875
  * 
  */
-public class PAP_Auth_V2 {
+public class Chap_Auth_V2 {
 
+	// 创建ErrorInfo包
+	byte[] ErrorInfo = new byte[1];
+	// 创建ChapPassword包
+	byte[] ChapPassword = new byte[16];
 	// 创建连接
 	DatagramSocket dataSocket;
 
-	public int Action(String Bas_IP, int bas_PORT, int timeout_Sec,
+	public byte[] Action(String Bas_IP, int bas_PORT, int timeout_Sec,
 			String in_username, String in_password, byte[] SerialNo,
-			byte[] UserIP, String sharedSecret) {
+			byte[] UserIP, byte[] ReqID, byte[] Challenge, String sharedSecret) {
 
 		byte[] Username = in_username.getBytes();
 		byte[] password = in_password.getBytes();
+		try {
+			ChapPassword = Make_ChapPassword.MK_ChapPwd(ReqID, Challenge,
+					password);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		byte[] authbuff = new byte[4 + Username.length + ChapPassword.length];
+
+		authbuff[0] = (byte) 1;
+		authbuff[1] = (byte) (Username.length + 2);
+		for (int i = 0; i < Username.length; i++) {
+			authbuff[2 + i] = Username[i];
+		}
+		authbuff[2 + Username.length] = (byte) 4;
+		authbuff[3 + Username.length] = (byte) (ChapPassword.length + 2);
+		for (int i = 0; i < ChapPassword.length; i++) {
+			authbuff[4 + Username.length + i] = ChapPassword[i];
+		}
 
 		// 创建Req_Auth包
-		byte[] Req_Auth = new byte[32 + 4 + Username.length + password.length];
+		byte[] Req_Auth = new byte[36 + Username.length + ChapPassword.length];
 
 		Req_Auth[0] = (byte) 2;
 		Req_Auth[1] = (byte) 3;
-		Req_Auth[2] = (byte) 1;
+		Req_Auth[2] = (byte) 0;
 		Req_Auth[3] = (byte) 0;
 		Req_Auth[4] = SerialNo[0];
 		Req_Auth[5] = SerialNo[1];
-		Req_Auth[6] = (byte) 0;
-		Req_Auth[7] = (byte) 0;
+		Req_Auth[6] = ReqID[0];
+		Req_Auth[7] = ReqID[1];
 		Req_Auth[8] = UserIP[0];
 		Req_Auth[9] = UserIP[1];
 		Req_Auth[10] = UserIP[2];
@@ -45,18 +71,6 @@ public class PAP_Auth_V2 {
 		Req_Auth[13] = (byte) 0;
 		Req_Auth[14] = (byte) 0;
 		Req_Auth[15] = (byte) 2;
-
-		byte[] authbuff = new byte[4 + Username.length + password.length];
-		authbuff[0] = (byte) 1;
-		authbuff[1] = (byte) (Username.length + 2);
-		for (int i = 0; i < Username.length; i++) {
-			authbuff[2 + i] = Username[i];
-		}
-		authbuff[2 + Username.length] = (byte) 2;
-		authbuff[3 + Username.length] = (byte) (password.length + 2);
-		for (int i = 0; i < password.length; i++) {
-			authbuff[4 + Username.length + i] = password[i];
-		}
 
 		byte[] BBuff = new byte[16];
 		for (int i = 0; i < 16; i++) {
@@ -98,23 +112,26 @@ public class PAP_Auth_V2 {
 				System.out.println("准备发送AFF_ACK_AUTH");
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 1) {
 				System.out.println("用户认证请求被拒绝");
-				return 21;
+				ErrorInfo[0] = (byte) 21;
+				return ErrorInfo;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 2) {
 				System.out.println("用户链接已建立");
-				return 22;
+				ErrorInfo[0] = (byte) 22;
+				return ErrorInfo;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 3) {
 				System.out.println("有一个用户正在认证过程中，请稍后再试");
-				return 23;
+				ErrorInfo[0] = (byte) 23;
+				return ErrorInfo;
 			} else if ((int) (ACK_Auth_Data[14] & 0xFF) == 4) {
 				System.out.println("用户认证失败（发生错误）");
-				return 24;
+				ErrorInfo[0] = (byte) 24;
+				return ErrorInfo;
 			}
 
 		} catch (IOException e) {
 			System.out.println("用户认证服务器无响应！！！");
-			new PAP_Quit_V2().Action(2, Bas_IP, bas_PORT, timeout_Sec,
-					SerialNo, UserIP, sharedSecret);
-			return 02;
+			ErrorInfo[0] = (byte) 02;
+			return ErrorInfo;
 		} finally {
 			dataSocket.close();
 		}
@@ -122,14 +139,14 @@ public class PAP_Auth_V2 {
 		// 创建AFF_Ack_Auth包
 		byte[] AFF_Ack_Auth_Data = new byte[32];
 		// 给AFF_ACK_AUTH包赋值
-		AFF_Ack_Auth_Data[0] = (byte) 1;
+		AFF_Ack_Auth_Data[0] = (byte) 2;
 		AFF_Ack_Auth_Data[1] = (byte) 7;
-		AFF_Ack_Auth_Data[2] = (byte) 1;
+		AFF_Ack_Auth_Data[2] = (byte) 0;
 		AFF_Ack_Auth_Data[3] = (byte) 0;
 		AFF_Ack_Auth_Data[4] = SerialNo[0];
 		AFF_Ack_Auth_Data[5] = SerialNo[1];
-		AFF_Ack_Auth_Data[6] = (byte) 0;
-		AFF_Ack_Auth_Data[7] = (byte) 0;
+		AFF_Ack_Auth_Data[6] = ReqID[0];
+		AFF_Ack_Auth_Data[7] = ReqID[1];
 		AFF_Ack_Auth_Data[8] = UserIP[0];
 		AFF_Ack_Auth_Data[9] = UserIP[1];
 		AFF_Ack_Auth_Data[10] = UserIP[2];
@@ -139,12 +156,11 @@ public class PAP_Auth_V2 {
 		AFF_Ack_Auth_Data[14] = (byte) 0;
 		AFF_Ack_Auth_Data[15] = (byte) 0;
 
-		byte[] BBBuff = new byte[16];
-		for (int i = 0; i < BBBuff.length; i++) {
-			BBBuff[i] = AFF_Ack_Auth_Data[i];
+		for (int i = 0; i < 16; i++) {
+			BBuff[i] = AFF_Ack_Auth_Data[i];
 		}
 		byte[] Attrs = new byte[0];
-		byte[] BAuthen = Make_Authenticator.MK_Authen(BBBuff, Attrs,
+		byte[] BAuthen = Make_Authenticator.MK_Authen(BBuff, Attrs,
 				sharedSecret);
 
 		for (int i = 0; i < 16; i++) {
@@ -164,14 +180,16 @@ public class PAP_Auth_V2 {
 					bas_PORT);
 			dataSocket.send(requestPacket);
 			System.out.println("发送AFF_Ack_Auth成功！！");
-			return 0;
 
 		} catch (IOException e) {
 			System.out.println("发送AFF_Ack_Auth出错！！");
-			return 0;
+			ErrorInfo[0] = (byte) 20;
+			return ErrorInfo;
 		} finally {
 			dataSocket.close();
 		}
+		ErrorInfo[0] = (byte) 20;
+		return ErrorInfo;
 
 	}
 

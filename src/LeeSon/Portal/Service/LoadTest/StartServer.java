@@ -1,6 +1,6 @@
-package Portal.Server;
+package LeeSon.Portal.Service.LoadTest;
 
-import Portal.Server.PortalAuthServer;
+import LeeSon.Portal.Service.LoadTest.PortalAuthServer;
 
 /**
  * 压力测试入口
@@ -12,7 +12,7 @@ public class StartServer {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated mewhile(true){
-		for (int i = 0; i <= 400; i++) {
+		for (int i = 0; i <= 5000; i++) {
 			new Thread() {
 				public void run() {
 					try {
