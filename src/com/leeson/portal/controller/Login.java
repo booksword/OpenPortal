@@ -149,6 +149,7 @@ public class Login extends HttpServlet {
 //		@SuppressWarnings("deprecation")
 //		String cfgPath = request.getRealPath("/");// 获取服务器的webroot路径  已经过期
 		String cfgPath = this.getServletContext().getRealPath("/");  // 获取服务器的页面绝对路径
+		logger.info("读取配置文件："+cfgPath+"config.properties");
 		FileInputStream fis = null;
 		Properties config = new Properties();
 		File file = new File(cfgPath + "config.properties");
