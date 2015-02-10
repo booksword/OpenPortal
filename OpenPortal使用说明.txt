@@ -1,10 +1,9 @@
-OpenPortal开源Portal服务
+OpenPortalServer开源Portal服务
 
-作者：LeeSon  QQ:25901875  E-Mail:LeeSon@vip.qq.com
+作者：LeeSon  QQ:25901875  E-Mail:LeeSon@vip.qq.com  OpenPortal官方交流群 119688084
 
-    该软件是基于华为AC/BAS PORTAL协议的服务端程序，Java编写，开源。
-最新源代码下载地址：https://github.com/lishuocool
-包含 OpenPortal  AC模拟器  ToughRadius 三套代码
+        该软件是基于华为AC/BAS PORTAL协议的服务端程序，Java编写，开源。
+最新源代码下载地址：https://github.com/lishuocool  https://git.oschina.net/SoftLeeSon/
 
 新手安装配置说明：
 
@@ -18,9 +17,9 @@ bas_ip=192.168.0.2  //AC设备IP地址
 bas_port=2000       //AC设备通信端口  【无需修改】
 portal_port=50100   //PORTAL服务监听端口  【无需修改】
 sharedSecret=LeeSon //共享密钥
-authType=0          //认证类型 0 chap   1 pap  
+authType=CHAP          //认证类型   【CHAP/PAP】  
 timeoutSec=3        //超时 3秒  【无需修改】
-portalVer=1         //PORTAL协议版本
+portalVer=1         //PORTAL协议版本   【1/2】  
 
 4.配置AC设备 安装和配置Radius服务
   如果使用AC模拟器进行模拟测试则可忽略这部
